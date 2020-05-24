@@ -1,0 +1,15 @@
+#!/bin/bash
+MODULE="$1"
+shift 1
+docker run \
+  --user $(id -u):$(id -g) \
+  --mount type=bind,source="${HOME}/.npm",target=/.npm \
+  --mount type=bind,source="${HOME}/.config/configstore",target=/.config/configstore \
+  --mount type=bind,source="${HOME}/node_modules",target=/usr/lib/node_modules,readonly \
+  --mount type=bind,source="$(pwd)",target=/project,readonly \
+  --mount type=bind,source="$(pwd)/${MODULE}/node_modules",target=/project/${MODULE}/node_modules \
+  --mount type=bind,source="$(pwd)/${MODULE}/dist",target=/project/${MODULE}/dist \
+  --rm \
+  --entrypoint=/usr/lib/node_modules/npm/bin/npm-cli.js \
+  --workdir /project/${MODULE} \
+  nodejs:12 $@

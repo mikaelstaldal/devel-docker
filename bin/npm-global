@@ -1,0 +1,8 @@
+docker run \
+  --user $(id -u):$(id -g) \
+  --mount type=bind,source="${HOME}/.npm",target=/.npm \
+  --mount type=bind,source="${HOME}/.config/configstore",target=/.config/configstore \
+  --mount type=bind,source="${HOME}/node_modules",target=/usr/lib/node_modules \
+  --rm \
+  --entrypoint=/usr/lib/node_modules/npm/bin/npm-cli.js \
+  nodejs:12 $@
