@@ -1,8 +1,10 @@
 docker run \
+  -e TZ=$(cat /etc/timezone) \
   --user $(id -u):$(id -g) \
   --mount type=bind,source="${HOME}/.npm",target=/.npm \
   --mount type=bind,source="${HOME}/.config/configstore",target=/.config/configstore \
-  --mount type=bind,source="${HOME}/node_modules",target=/usr/lib/node_modules \
+  --mount type=bind,source="$(pwd)",target=/project \
   --rm \
-  --entrypoint=/usr/lib/node_modules/npm/bin/npm-cli.js \
+  --entrypoint=/usr/bin/npx \
+  --workdir /project \
   nodejs:14 $@
