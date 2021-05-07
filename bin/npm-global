@@ -5,4 +5,4 @@ docker run \
   --mount type=bind,source="${HOME}/node_modules",target=/usr/lib/node_modules \
   --rm \
   --entrypoint=/usr/lib/node_modules/npm/bin/npm-cli.js \
-  nodejs:12 $@
+  nodejs:14 $@

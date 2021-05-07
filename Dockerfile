@@ -1,4 +1,4 @@
-FROM ubuntu:18.04 AS build-env
+FROM ubuntu:20.04 AS build-env
 ARG NODE_VERSION
 RUN \
     apt-get update && \

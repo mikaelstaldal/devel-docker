@@ -1,1 +1,1 @@
-docker build --build-arg NODE_VERSION=12 --tag nodejs:12 .
+docker build --build-arg NODE_VERSION=14 --tag nodejs:14 .

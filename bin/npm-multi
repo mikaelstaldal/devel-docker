@@ -12,4 +12,4 @@ docker run \
   --rm \
   --entrypoint=/usr/lib/node_modules/npm/bin/npm-cli.js \
   --workdir /project/${MODULE} \
-  nodejs:12 $@
+  nodejs:14 $@
