@@ -2,4 +2,5 @@ docker run \
   -e TZ=$(cat /etc/timezone) \
   --user $(id -u):$(id -g) \
   --rm \
+  -it \
   nodejs:14 "$@"

@@ -4,9 +4,11 @@ docker run \
   --mount type=bind,source="${HOME}/.npm",target=/.npm \
   --mount type=bind,source="${HOME}/.config/configstore",target=/.config/configstore \
   --mount type=bind,source="$(pwd)",target=/project,readonly \
+  --mount type=bind,source="$(pwd)/package.json",target=/project/package.json \
+  --mount type=bind,source="$(pwd)/package-lock.json",target=/project/package-lock.json \
   --mount type=bind,source="$(pwd)/node_modules",target=/project/node_modules \
   --mount type=bind,source="$(pwd)/dist",target=/project/dist \
   --rm \
   --entrypoint=/usr/bin/npm \
   --workdir /project \
-  nodejs:14 $@
+  nodejs:14 "$@"

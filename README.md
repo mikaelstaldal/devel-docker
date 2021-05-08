@@ -8,6 +8,7 @@
 ## Usage
 
 - Use the `node` script to run Node.js.
+- Use the `node-repl` script to run Node.js in interactive mode (REPL).
 - Use the `npm` script to manage a project.
   - Assumes that your build artifacts ends up in `$PROJECT/dist/`.
 - Use the `npm-multi` script to manage a multi-module project, start it in project root dir and pass the name of the module as first argument.
