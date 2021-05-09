@@ -2,6 +2,7 @@ docker run \
   -e TZ=$(cat /etc/timezone) \
   --user $(id -u):$(id -g) \
   --mount type=bind,source="/usr/lib/node_modules",target=/usr/lib/node_modules,readonly \
+  --mount type=bind,source="${HOME}/.node_repl_history",target=/.node_repl_history \
   --rm \
   -it \
   nodejs:14 "$@"
