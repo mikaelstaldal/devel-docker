@@ -26,6 +26,5 @@ FROM gcr.io/distroless/cc
 COPY --from=build-env /dist/lib /lib/x86_64-linux-gnu/
 COPY --from=build-env /dist/bin /bin/
 COPY --from=build-env /dist/usr-bin /usr/bin/
-COPY --from=build-env /usr/lib/node_modules /usr/lib/node_modules
 
 ENTRYPOINT ["/usr/bin/node"]

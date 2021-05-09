@@ -1,0 +1,9 @@
+docker run \
+  -e TZ=$(cat /etc/timezone) \
+  --mount type=bind,source="/usr/lib/node_modules",target=/usr/lib/node_modules \
+  --mount type=bind,source="${HOME}/.npm",target=/.npm,readonly \
+  --mount type=bind,source="${HOME}/.config/configstore",target=/.config/configstore,readonly \
+  --rm \
+  --entrypoint=/usr/bin/npm \
+  --workdir /project \
+  nodejs:14 "$@"
