@@ -5,4 +5,4 @@ docker run \
   --mount type=bind,source="${HOME}/.node_repl_history",target=/.node_repl_history \
   --rm \
   -it \
-  nodejs:14 "$@"
+  nodejs:16 "$@"

@@ -3,4 +3,4 @@ docker run \
   --user $(id -u):$(id -g) \
   --mount type=bind,source="/usr/lib/node_modules",target=/usr/lib/node_modules,readonly \
   --rm \
-  nodejs:14 "$@"
+  nodejs:16 "$@"
