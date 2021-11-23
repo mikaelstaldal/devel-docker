@@ -1,0 +1,9 @@
+docker run \
+  -e TZ=$(cat /etc/timezone) \
+  --user $(id -u):$(id -g) \
+  --mount type=bind,source="/etc/passwd",target=/etc/passwd,readonly \
+  --mount type=bind,source="${HOME}/.m2",target=${HOME}/.m2 \
+  --mount type=bind,source="$(pwd)",target=/project \
+  --rm \
+  --workdir /project
+  maven:3.8.4 "$@"

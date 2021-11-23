@@ -1,0 +1,33 @@
+FROM ubuntu:20.04 AS build-env
+ARG MAVEN_VERSION
+RUN \
+    apt-get update && \
+    apt-get install -y curl
+
+RUN mkdir -p /dist/bin && \
+    cp /bin/dash /dist/bin/ && \
+    cd /dist/bin/ && \
+    ln -s dash sh
+RUN mkdir -p /dist/usr-bin && \
+    cp /usr/bin/env /usr/bin/find /usr/bin/uname /usr/bin/dirname /usr/bin/node /usr/bin/ls /usr/bin/expr /dist/usr-bin/
+RUN mkdir -p /dist/lib && \
+    cp /lib/x86_64-linux-gnu/libselinux.so.1 /lib/x86_64-linux-gnu/libpcre.so.3.13.3 /lib/x86_64-linux-gnu/libpcre2-8.so.0.9.0 /dist/lib/ && \
+    cd /dist/lib/ && \
+    ln -s libpcre.so.3.13.3 libpcre.so.3 && \
+    ln -s libpcre2-8.so.0.9.0 libpcre2-8.so.0
+
+RUN mkdir -p /dist/maven && \
+    curl -sL https://dlcdn.apache.org/maven/maven-3/${MAVEN_VERSION}/binaries/apache-maven-${MAVEN_VERSION}-bin.tar.gz > /tmp/maven.tar.gz && \
+    cd /usr/share && \
+    tar -xzf /tmp/maven.tar.gz && \
+    mv apache-maven-${MAVEN_VERSION} maven && \
+    cd /dist/usr-bin && \
+    ln -s /usr/share/maven/bin/mvn mvn
+
+FROM gcr.io/distroless/java-debian11:11
+COPY --from=build-env /dist/lib /lib/x86_64-linux-gnu/
+COPY --from=build-env /dist/bin /bin/
+COPY --from=build-env /dist/usr-bin /usr/bin/
+COPY --from=build-env /usr/share/maven /usr/share/maven/
+
+ENTRYPOINT ["/usr/bin/mvn"]
