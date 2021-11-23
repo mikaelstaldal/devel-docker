@@ -9,11 +9,10 @@ RUN mkdir -p /dist/bin && \
     cd /dist/bin/ && \
     ln -s dash sh
 RUN mkdir -p /dist/usr-bin && \
-    cp /usr/bin/env /usr/bin/find /usr/bin/uname /usr/bin/dirname /usr/bin/node /usr/bin/ls /usr/bin/expr /dist/usr-bin/
+    cp /usr/bin/env /usr/bin/uname /usr/bin/dirname /usr/bin/ls /usr/bin/expr /dist/usr-bin/
 RUN mkdir -p /dist/lib && \
-    cp /lib/x86_64-linux-gnu/libselinux.so.1 /lib/x86_64-linux-gnu/libpcre.so.3.13.3 /lib/x86_64-linux-gnu/libpcre2-8.so.0.9.0 /dist/lib/ && \
+    cp /lib/x86_64-linux-gnu/libselinux.so.1 /lib/x86_64-linux-gnu/libpcre2-8.so.0.9.0 /dist/lib/ && \
     cd /dist/lib/ && \
-    ln -s libpcre.so.3.13.3 libpcre.so.3 && \
     ln -s libpcre2-8.so.0.9.0 libpcre2-8.so.0
 
 RUN mkdir -p /dist/maven && \

@@ -5,5 +5,5 @@ docker run \
   --mount type=bind,source="${HOME}/.m2",target=${HOME}/.m2 \
   --mount type=bind,source="$(pwd)",target=/project \
   --rm \
-  --workdir /project
+  --workdir /project \
   maven:3.8.4 "$@"
