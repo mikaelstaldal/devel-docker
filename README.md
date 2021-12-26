@@ -1,5 +1,8 @@
 # Run various development environments in a Docker container for security reasons
 
+Give only access to the current directory, and any specific directories the tool uses.
+
+
 ## Node.js and NPM/NPX
 
 ### Installation

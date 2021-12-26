@@ -3,6 +3,8 @@ docker run \
   --user $(id -u):$(id -g) \
   --mount type=bind,source="/usr/lib/node_modules",target=/usr/lib/node_modules,readonly \
   --mount type=bind,source="${HOME}/.node_repl_history",target=/.node_repl_history \
+  --mount type=bind,source="$(pwd)",target=/project \
   --rm \
+  --workdir /project \
   -it \
   nodejs:16 "$@"

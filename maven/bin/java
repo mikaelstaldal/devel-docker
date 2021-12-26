@@ -1,0 +1,10 @@
+docker run \
+  -e TZ=$(cat /etc/timezone) \
+  --user $(id -u):$(id -g) \
+  --mount type=bind,source="/etc/passwd",target=/etc/passwd,readonly \
+  --mount type=bind,source="${HOME}/.java",target=${HOME}/.java \
+  --mount type=bind,source="$(pwd)",target=/project \
+  --rm \
+  --entrypoint=/usr/bin/java \
+  --workdir /project \
+  gcr.io/distroless/java11-debian11:debug "$@"
