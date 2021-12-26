@@ -1,8 +1,7 @@
 ARG JAVA_VERSION
 FROM ubuntu:20.04 AS build-env
 ARG MAVEN_VERSION
-RUN \
-    apt-get update && \
+RUN apt-get update && \
     apt-get install -y curl
 
 RUN mkdir -p /dist/bin && \
@@ -16,13 +15,10 @@ RUN mkdir -p /dist/lib && \
     cd /dist/lib/ && \
     ln -s libpcre2-8.so.0.9.0 libpcre2-8.so.0
 
-RUN mkdir -p /dist/maven && \
-    curl -sL https://dlcdn.apache.org/maven/maven-3/${MAVEN_VERSION}/binaries/apache-maven-${MAVEN_VERSION}-bin.tar.gz > /tmp/maven.tar.gz && \
-    cd /usr/share && \
-    tar -xzf /tmp/maven.tar.gz && \
+RUN cd /usr/share && \
+    curl -fsL https://dlcdn.apache.org/maven/maven-3/${MAVEN_VERSION}/binaries/apache-maven-${MAVEN_VERSION}-bin.tar.gz | tar -xzf - && \
     mv apache-maven-${MAVEN_VERSION} maven && \
-    cd /dist/usr-bin && \
-    ln -s /usr/share/maven/bin/mvn mvn
+    ln -s /usr/share/maven/bin/mvn /dist/usr-bin/mvn
 
 FROM gcr.io/distroless/java${JAVA_VERSION}-debian11
 COPY --from=build-env /dist/lib /lib/x86_64-linux-gnu/

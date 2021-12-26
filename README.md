@@ -32,3 +32,11 @@ Give only access to the current directory, and any specific directories the tool
 
 1. Build the Docker image and create any needed files and directories with the `maven/setup.sh` script.
 2. Put the scripts in `maven/bin` somewhere in your PATH.
+
+
+## Scala and SBT
+
+### Installation
+
+1. Build the Docker image and create any needed files and directories with the `sbt/setup.sh` script.
+2. Put the scripts in `sbt/bin` somewhere in your PATH.
