@@ -1,6 +1,8 @@
-# Run Node.js and NPM/NPX in a Docker container
+# Run various development environments in a Docker container for security reasons
 
-## Installation
+## Node.js and NPM/NPX
+
+### Installation
 
 1. Install NPM.
     - Download the [Node.js binary distribution](https://nodejs.org/download/release/latest-v16.x/node-v16.13.0-linux-x64.tar.xz).
@@ -9,7 +11,7 @@
 2. Build the Docker image and create any needed files and directories with the `setup.sh` script.
 3. Put the scripts in `bin` somewhere in your PATH.
 
-## Usage
+### Usage
 
 - Use the `node` script to run Node.js.
 - Use the `node-repl` script to run Node.js in interactive mode (REPL).
