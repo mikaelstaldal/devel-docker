@@ -1,3 +1,4 @@
+ARG JAVA_VERSION
 FROM ubuntu:20.04 AS build-env
 ARG MAVEN_VERSION
 RUN \
@@ -23,7 +24,7 @@ RUN mkdir -p /dist/maven && \
     cd /dist/usr-bin && \
     ln -s /usr/share/maven/bin/mvn mvn
 
-FROM gcr.io/distroless/java-debian11:11
+FROM gcr.io/distroless/java${JAVA_VERSION}-debian11
 COPY --from=build-env /dist/lib /lib/x86_64-linux-gnu/
 COPY --from=build-env /dist/bin /bin/
 COPY --from=build-env /dist/usr-bin /usr/bin/
