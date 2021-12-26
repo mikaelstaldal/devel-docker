@@ -1,0 +1,13 @@
+docker run \
+  -e TZ=$(cat /etc/timezone) \
+  -e JAVA_HOME=/usr/lib/jvm/java-11-openjdk-amd64 \
+  --user $(id -u):$(id -g) \
+  --mount type=bind,source="/etc/passwd",target=/etc/passwd,readonly \
+  --mount type=bind,source="${HOME}/.sbt",target=${HOME}/.sbt \
+  --mount type=bind,source="${HOME}/.ivy2",target=${HOME}/.ivy2 \
+  --mount type=bind,source="${HOME}/.cache/coursier",target=${HOME}/.cache/coursier \
+  --mount type=bind,source="${HOME}/.cache/JNA",target=${HOME}/.cache/JNA \
+  --mount type=bind,source="$(pwd)",target=/project \
+  --rm \
+  --workdir /project \
+  sbt:1.5.8-Scala3.1.0-Java11 "$@"

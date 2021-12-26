@@ -3,8 +3,11 @@ docker run \
   -e JAVA_HOME=/usr/lib/jvm/java-11-openjdk-amd64 \
   --user $(id -u):$(id -g) \
   --mount type=bind,source="/etc/passwd",target=/etc/passwd,readonly \
-  --mount type=bind,source="${HOME}/.m2",target=${HOME}/.m2 \
+  --mount type=bind,source="${HOME}/.scala_history_jline3",target=${HOME}/.scala_history_jline3 \
+  --mount type=bind,source="${HOME}/.dotty_history",target=${HOME}/.dotty_history \
   --mount type=bind,source="$(pwd)",target=/project \
   --rm \
+  --entrypoint /usr/bin/scala \
   --workdir /project \
-  maven:3.8.4-Java11 "$@"
+  -it \
+  sbt:1.5.8-Scala3.1.0-Java11 "$@"
