@@ -7,14 +7,15 @@ RUN apt-get update && \
 
 RUN mkdir -p /dist/bin && \
     cp /bin/bash /dist/bin/ && \
-    ln -s /dist/bin/bash /dist/bin/sh
+    cd /dist/bin && \
+    ln -s bash sh
 RUN mkdir -p /dist/usr-bin && \
     cp /usr/bin/env /usr/bin/basename /usr/bin/cat /usr/bin/dirname /usr/bin/expr /usr/bin/grep /usr/bin/ls /usr/bin/mkdir \
        /usr/bin/readlink /usr/bin/sed /usr/bin/tr /usr/bin/uname /usr/bin/which /dist/usr-bin/
 RUN mkdir -p /dist/lib && \
     cp /lib/x86_64-linux-gnu/libacl.so.1.1.2253 /lib/x86_64-linux-gnu/libpcre2-8.so.0.9.0 /lib/x86_64-linux-gnu/libselinux.so.1  \
        /lib/x86_64-linux-gnu/libtinfo.so.6.2 /dist/lib/ && \
-    cd /dist/lib/ && \
+    cd /dist/lib && \
     ln -s libacl.so.1.1.2253 libacl.so.1 && \
     ln -s libpcre2-8.so.0.9.0 libpcre2-8.so.0 && \
     ln -s libtinfo.so.6.2 libtinfo.so.6 && \
