@@ -15,11 +15,19 @@ RUN mkdir -p /dist/lib && \
     cd /dist/lib/ && \
     ln -s libpcre2-8.so.0.9.0 libpcre2-8.so.0
 
-RUN cd /usr/share && \
-    curl -fsL https://dlcdn.apache.org/maven/maven-3/${MAVEN_VERSION}/binaries/apache-maven-${MAVEN_VERSION}-bin.tar.gz | tar -xzf - && \
+RUN curl -fsL https://dlcdn.apache.org/maven/maven-3/${MAVEN_VERSION}/binaries/apache-maven-${MAVEN_VERSION}-bin.tar.gz | tar -xzf - -C /usr/share && \
     mv apache-maven-${MAVEN_VERSION} maven && \
+    chown -R root:root /usr/share/maven && \
+    chmod -R 755 /usr/share/maven && \
     ln -s /usr/share/maven/bin/mvn /dist/usr-bin/mvn
 
+RUN mvn --version && \
+    mvn archetype:generate -DgroupId=com.bogus -DartifactId=bogus-app -DarchetypeArtifactId=maven-archetype-quickstart -DarchetypeVersion=1.4 -DinteractiveMode=false && \
+    cd bogus-app && \
+    mvn verify && \
+    cd .. && \
+    rm -r bogus-app
+  
 FROM gcr.io/distroless/java${JAVA_VERSION}-debian11
 COPY --from=build-env /dist/lib /lib/x86_64-linux-gnu/
 COPY --from=build-env /dist/bin /bin/
