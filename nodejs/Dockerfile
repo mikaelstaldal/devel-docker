@@ -6,7 +6,7 @@ RUN \
 RUN \
     curl -sL https://deb.nodesource.com/setup_${NODE_VERSION}.x | bash - && \
     apt-get update && \
-    apt-get install -y nodejs
+    DEBIAN_FRONTEND=noninteractive apt-get install -y nodejs
 
 RUN mkdir -p /dist/bin && \
     cp /bin/dash /dist/bin/ && \
