@@ -6,16 +6,16 @@ RUN apt-get update && \
 
 RUN mkdir -p /dist/bin && \
     cp /bin/dash /dist/bin/ && \
-    cd /dist/bin/ && \
+    cd /dist/bin && \
     ln -s dash sh
 RUN mkdir -p /dist/usr-bin && \
     cp /usr/bin/env /usr/bin/uname /usr/bin/dirname /usr/bin/ls /usr/bin/expr /dist/usr-bin/
 RUN mkdir -p /dist/lib && \
     cp /lib/x86_64-linux-gnu/libselinux.so.1 /lib/x86_64-linux-gnu/libpcre2-8.so.0.9.0 /dist/lib/ && \
-    cd /dist/lib/ && \
+    cd /dist/lib && \
     ln -s libpcre2-8.so.0.9.0 libpcre2-8.so.0
 
-RUN curl -fsL https://dlcdn.apache.org/maven/maven-3/${MAVEN_VERSION}/binaries/apache-maven-${MAVEN_VERSION}-bin.tar.gz | tar -xzf - -C /usr/share && \
+RUN curl -fsL "https://dlcdn.apache.org/maven/maven-3/${MAVEN_VERSION}/binaries/apache-maven-${MAVEN_VERSION}-bin.tar.gz" | tar -xzf - -C /usr/share && \
     mv /usr/share/apache-maven-${MAVEN_VERSION} /usr/share/maven && \
     chown -R root:root /usr/share/maven && \
     chmod -R 755 /usr/share/maven && \
