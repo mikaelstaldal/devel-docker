@@ -21,13 +21,6 @@ RUN curl -fsL https://dlcdn.apache.org/maven/maven-3/${MAVEN_VERSION}/binaries/a
     chmod -R 755 /usr/share/maven && \
     ln -s /usr/share/maven/bin/mvn /dist/usr-bin/mvn
 
-RUN mvn --version && \
-    mvn archetype:generate -DgroupId=com.bogus -DartifactId=bogus-app -DarchetypeArtifactId=maven-archetype-quickstart -DarchetypeVersion=1.4 -DinteractiveMode=false && \
-    cd bogus-app && \
-    mvn verify && \
-    cd .. && \
-    rm -r bogus-app
-  
 FROM gcr.io/distroless/java${JAVA_VERSION}-debian11
 COPY --from=build-env /dist/lib /lib/x86_64-linux-gnu/
 COPY --from=build-env /dist/bin /bin/
