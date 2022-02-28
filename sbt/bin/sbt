@@ -10,4 +10,5 @@ docker run \
   --mount type=bind,source="$(pwd)",target=/project \
   --rm \
   --workdir /project \
+  -it \
   sbt:1.5.8-Scala3.1.0-Java11 "$@"
