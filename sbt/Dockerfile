@@ -25,14 +25,30 @@ RUN case $SCALA_VERSION in \
       "3"*) URL=https://github.com/lampepfl/dotty/releases/download/$SCALA_VERSION/scala3-$SCALA_VERSION.tar.gz SCALA_DIR=/usr/share/scala3-$SCALA_VERSION ;; \
       *) URL=https://downloads.lightbend.com/scala/$SCALA_VERSION/scala-$SCALA_VERSION.tgz SCALA_DIR=/usr/share/scala-$SCALA_VERSION ;; \
     esac && \
-    cd /usr/share && \
-    curl -fsL $URL | tar -xzf - && \
+    curl -fsL $URL | tar -xzf - -C /usr/share && \
     mv $SCALA_DIR /usr/share/scala && \
-    ln -s /usr/share/scala/bin/* /dist/usr-bin/
+    chown -R root:root /usr/share/scala && \
+    chmod -R 755 /usr/share/scala && \
+    ln -s /usr/share/scala/bin/* /dist/usr-bin/ && \
+    case $SCALA_VERSION in \
+      "3"*) echo "@main def main = println(util.Properties.versionMsg)" > test.scala ;; \
+      *) echo "println(util.Properties.versionMsg)" > test.scala ;; \
+    esac && \
+    scala -nocompdaemon test.scala && rm test.scala    
 
-RUN cd /usr/share && \
-    curl -fsL "https://github.com/sbt/sbt/releases/download/v${SBT_VERSION}/sbt-${SBT_VERSION}.tgz" | tar xzf - && \
+RUN curl -fsL "https://github.com/sbt/sbt/releases/download/v${SBT_VERSION}/sbt-${SBT_VERSION}.tgz" | tar xzf - -C /usr/share && \
+    chown -R root:root /usr/share/sbt && \
+    chmod -R 755 /usr/share/sbt && \
     ln -s /usr/share/sbt/bin/sbt /dist/usr-bin/sbt
+    
+RUN sbt sbtVersion && \
+    mkdir -p project && \
+    echo "scalaVersion := \"${SCALA_VERSION}\"" > build.sbt && \
+    echo "sbt.version=${SBT_VERSION}" > project/build.properties && \
+    echo "// force sbt compiler-bridge download" > project/Dependencies.scala && \
+    echo "case object Temp" > Temp.scala && \
+    sbt compile && \
+    rm -r project && rm build.sbt && rm Temp.scala && rm -r target    
 
 FROM gcr.io/distroless/java${JAVA_VERSION}-debian11
 COPY --from=build-env /dist/lib /lib/x86_64-linux-gnu/
