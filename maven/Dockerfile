@@ -16,7 +16,7 @@ RUN mkdir -p /dist/lib && \
     ln -s libpcre2-8.so.0.9.0 libpcre2-8.so.0
 
 RUN curl -fsL https://dlcdn.apache.org/maven/maven-3/${MAVEN_VERSION}/binaries/apache-maven-${MAVEN_VERSION}-bin.tar.gz | tar -xzf - -C /usr/share && \
-    mv apache-maven-${MAVEN_VERSION} maven && \
+    mv /usr/share/apache-maven-${MAVEN_VERSION} /usr/share/maven && \
     chown -R root:root /usr/share/maven && \
     chmod -R 755 /usr/share/maven && \
     ln -s /usr/share/maven/bin/mvn /dist/usr-bin/mvn
