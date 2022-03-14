@@ -7,4 +7,4 @@ docker run \
   --mount type=bind,source="$(pwd)",target=/project \
   --rm \
   --workdir /project \
-  maven:3.8.4-Java11 "$@"
+  maven:3.8.5-Java11 "$@"
