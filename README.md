@@ -8,7 +8,7 @@ Give only access to the current directory, and any specific directories the tool
 ### Installation
 
 1. Install NPM.
-    - Download the [Node.js binary distribution](https://nodejs.org/dist/v16.14.0/node-v16.14.0-linux-x64.tar.xz).
+    - Download the [Node.js binary distribution](https://nodejs.org/dist/v16.15.1/node-v16.15.1-linux-x64.tar.xz).
     - Extract the `node_modules` directory from it and put it in `/usr/lib`, let it be owned by root.
     - (Skip the `node` binary and everything else.)
 2. Build the Docker image and create any needed files and directories with the `nodejs/setup.sh` script.
