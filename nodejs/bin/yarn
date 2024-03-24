@@ -1,0 +1,17 @@
+#!/bin/bash
+
+if [ -t 0 ] ; then TTY="--tty"; else TTY=""; fi
+
+docker run \
+  -e TZ="$(cat /etc/timezone)" \
+  --user "$(id -u):$(id -g)" \
+  --mount type=bind,source=/etc/passwd,target=/etc/passwd,readonly \
+  --mount type=bind,source=/etc/group,target=/etc/group,readonly \
+  --mount type=bind,source=/usr/local/lib/node_modules,target=/usr/local/lib/node_modules,readonly \
+  --mount type=bind,source="${HOME}/.npm",target=/.npm \
+  --mount type=bind,source="${HOME}/.yarn",target=${HOME}/.yarn \
+  --mount type=bind,source="${HOME}/.cache/yarn",target=${HOME}/.cache/yarn \
+  --mount type=bind,source="$(pwd)",target="$(pwd)" \
+  --workdir "$(pwd)" \
+  --rm "${TTY}" \
+  node:20 yarn "$@"
