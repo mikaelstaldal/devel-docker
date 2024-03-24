@@ -1,15 +1,18 @@
 #!/bin/bash
+
+if [ -t 0 ] ; then TTY="--tty"; else TTY=""; fi
+
 MODULE="$1"
 shift 1
+
 docker run \
-  -e TZ=$(cat /etc/timezone) \
-  --user $(id -u):$(id -g) \
-  --mount type=bind,source="/usr/lib/node_modules",target=/usr/lib/node_modules,readonly \
+  -e TZ="$(cat /etc/timezone)" \
+  --user "$(id -u):$(id -g)" \
+  --mount type=bind,source=/usr/local/lib/node_modules,target=/usr/local/lib/node_modules,readonly \
   --mount type=bind,source="${HOME}/.npm",target=/.npm \
   --mount type=bind,source="${HOME}/.config/configstore",target=/.config/configstore \
-  --mount type=bind,source="$(pwd)",target=/project,readonly \
-  --mount type=bind,source="$(pwd)/${MODULE}",target=/project/${MODULE} \
-  --rm \
-  --entrypoint=/usr/bin/npm \
-  --workdir /project/${MODULE} \
-  nodejs:16 "$@"
+  --mount type=bind,source="$(pwd)",target="$(pwd)",readonly \
+  --mount type=bind,source="$(pwd)/${MODULE}",target="$(pwd)/${MODULE}" \
+  --workdir "$(pwd)/${MODULE}" \
+  --rm "${TTY}" \
+  node:20 npm "$@"

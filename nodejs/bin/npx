@@ -1,11 +1,15 @@
+#!/bin/bash
+
+if [ -t 0 ] ; then TTY="--tty"; else TTY=""; fi
+
 docker run \
-  -e TZ=$(cat /etc/timezone) \
-  --user $(id -u):$(id -g) \
-  --mount type=bind,source="/usr/lib/node_modules",target=/usr/lib/node_modules,readonly \
+  -e TZ="$(cat /etc/timezone)" \
+  --user "$(id -u):$(id -g)" \
+  --mount type=bind,source=/usr/local/lib/node_modules,target=/usr/local/lib/node_modules,readonly \
   --mount type=bind,source="${HOME}/.npm",target=/.npm \
   --mount type=bind,source="${HOME}/.config/configstore",target=/.config/configstore \
-  --mount type=bind,source="$(pwd)",target=/project \
+  --mount type=bind,source="$(pwd)",target="$(pwd)" \
+  --workdir "$(pwd)" \
   --rm \
-  --entrypoint=/usr/bin/npx \
-  --workdir /project \
-  nodejs:16 "$@"
+  --interactive "${TTY}" \
+  node:20 npx "$@"
