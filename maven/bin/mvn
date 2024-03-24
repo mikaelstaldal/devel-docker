@@ -1,10 +1,14 @@
+#!/bin/bash
+
+if [ -t 0 ] ; then TTY="--tty"; else TTY=""; fi
+
 docker run \
-  -e TZ=$(cat /etc/timezone) \
-  -e JAVA_HOME=/usr/lib/jvm/java-11-openjdk-amd64 \
-  --user $(id -u):$(id -g) \
-  --mount type=bind,source="/etc/passwd",target=/etc/passwd,readonly \
-  --mount type=bind,source="${HOME}/.m2",target=${HOME}/.m2 \
-  --mount type=bind,source="$(pwd)",target=/project \
-  --rm \
-  --workdir /project \
-  maven:3.8.5-Java11 "$@"
+  -e TZ="$(cat /etc/timezone)" \
+  -e JAVA_HOME=/usr/lib/jvm/java-17-openjdk-amd64 \
+  --user "$(id -u):$(id -g)" \
+  --mount type=bind,source=/etc/passwd,target=/etc/passwd,readonly \
+  --mount type=bind,source="${HOME}/.m2",target="${HOME}/.m2" \
+  --mount type=bind,source="$(pwd)",target="$(pwd)" \
+  --workdir "$(pwd)" \
+  --rm "${TTY}" \
+  maven:3.9.3-Java17 "$@"

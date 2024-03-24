@@ -1,13 +1,17 @@
+#!/bin/bash
+
+if [ -t 0 ] ; then TTY="--tty"; else TTY=""; fi
+
 docker run \
-  -e TZ=$(cat /etc/timezone) \
-  -e JAVA_HOME=/usr/lib/jvm/java-11-openjdk-amd64 \
-  --user $(id -u):$(id -g) \
-  --mount type=bind,source="/etc/passwd",target=/etc/passwd,readonly \
-  --mount type=bind,source="${HOME}/.scala_history_jline3",target=${HOME}/.scala_history_jline3 \
-  --mount type=bind,source="${HOME}/.dotty_history",target=${HOME}/.dotty_history \
-  --mount type=bind,source="$(pwd)",target=/project \
+  -e TZ="$(cat /etc/timezone)" \
+  -e JAVA_HOME=/usr/lib/jvm/java-17-openjdk-amd64 \
+  --user "$(id -u):$(id -g)" \
+  --mount type=bind,source=/etc/passwd,target=/etc/passwd,readonly \
+  --mount type=bind,source="${HOME}/.scala_history_jline3",target="${HOME}/.scala_history_jline3" \
+  --mount type=bind,source="${HOME}/.dotty_history",target="${HOME}/.dotty_history" \
+  --mount type=bind,source="$(pwd)",target="$(pwd)" \
+  --workdir "$(pwd)" \
   --rm \
+  --interactive "${TTY}" \
   --entrypoint /usr/bin/scala \
-  --workdir /project \
-  -it \
-  sbt:1.5.8-Scala3.1.0-Java11 "$@"
+  sbt:1.5.8-Scala3.1.0-Java17 "$@"

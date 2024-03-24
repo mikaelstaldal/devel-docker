@@ -1,10 +1,15 @@
+#!/bin/bash
+
+if [ -t 0 ] ; then TTY="--tty"; else TTY=""; fi
+
 docker run \
-  -e TZ=$(cat /etc/timezone) \
-  --user $(id -u):$(id -g) \
-  --mount type=bind,source="/etc/passwd",target=/etc/passwd,readonly \
-  --mount type=bind,source="${HOME}/.java",target=${HOME}/.java \
-  --mount type=bind,source="$(pwd)",target=/project \
-  --rm \
+  -e TZ="$(cat /etc/timezone)" \
+  -e JAVA_HOME=/usr/lib/jvm/java-17-openjdk-amd64 \
+  --user "$(id -u):$(id -g)" \
+  --mount type=bind,source=/etc/passwd,target=/etc/passwd,readonly \
+  --mount type=bind,source="${HOME}/.java",target="${HOME}/.java" \
+  --mount type=bind,source="$(pwd)",target="$(pwd)" \
+  --workdir "$(pwd)" \
+  --rm "${TTY}" \
   --entrypoint=/usr/bin/java \
-  --workdir /project \
-  gcr.io/distroless/java11-debian11:debug "$@"
+  gcr.io/distroless/java17-debian11:debug "$@"
