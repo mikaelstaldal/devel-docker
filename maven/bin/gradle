@@ -1,0 +1,17 @@
+#!/bin/bash
+
+if [ -t 0 ] ; then TTY="--tty"; else TTY=""; fi
+
+docker run \
+  --network=host \
+  -e TZ="$(cat /etc/timezone)" \
+  -e GRADLE_OPTS="-Xmx512m -XX:MaxMetaspaceSize=256m -XX:+HeapDumpOnOutOfMemoryError -Dorg.gradle.daemon=false -Dorg.gradle.parallel=true" \
+  -e GRADLE_USER_HOME="${HOME}/.gradle" \
+  --user "$(id -u):$(id -g)" \
+  --mount type=bind,source=/etc/passwd,target=/etc/passwd,readonly \
+  --mount type=bind,source=/etc/group,target=/etc/group,readonly \
+  --mount type=bind,source="${HOME}/.gradle",target="${HOME}/.gradle" \
+  --mount type=bind,source="$(pwd)",target="$(pwd)" \
+  --workdir "$(pwd)" \
+  --rm "${TTY}" \
+  gradle:8.1.1-jdk17-alpine gradle "$@"

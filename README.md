@@ -26,7 +26,7 @@ Give only access to the current directory, and any specific directories the tool
 - Use the `npx` script to run npx.
 
 
-## Java and Maven
+## Java, Maven and Gradle
 
 ### Installation
 
