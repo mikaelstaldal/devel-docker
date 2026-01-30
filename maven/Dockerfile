@@ -2,14 +2,14 @@ ARG JAVA_VERSION
 FROM ubuntu:20.04 AS build-env
 ARG MAVEN_VERSION
 RUN apt-get update && \
-    apt-get install -y curl
+    apt-get install -y curl git
 
 RUN mkdir -p /dist/bin && \
     cp /bin/dash /dist/bin/ && \
     cd /dist/bin && \
     ln -s dash sh
 RUN mkdir -p /dist/usr-bin && \
-    cp /usr/bin/env /usr/bin/uname /usr/bin/dirname /usr/bin/ls /usr/bin/expr /dist/usr-bin/
+    cp /usr/bin/env /usr/bin/chmod /usr/bin/uname /usr/bin/dirname /usr/bin/ls /usr/bin/expr /usr/bin/git /dist/usr-bin/
 RUN mkdir -p /dist/lib && \
     cp /lib/x86_64-linux-gnu/libselinux.so.1 /lib/x86_64-linux-gnu/libpcre2-8.so.0.9.0 /dist/lib/ && \
     cd /dist/lib && \
